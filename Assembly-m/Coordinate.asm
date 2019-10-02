@@ -1,0 +1,122 @@
+.MODEL SMALL
+.STACK 100H  
+.DATA
+VAR1 DB 'INPUT THE FIRST CHARACTER : $'
+VAR2 DB 'INPUT THE SECOND CHARACTER : $'
+MSG1 DB 'THE POINT IS IN 1ST COORDINATE. $'
+MSG2 DB 'THE POINT IS IN 2ND COORDINATE. $'
+MSG3 DB 'THE POINT IS IN 3RD COORDINATE. $'
+MSG4 DB 'THE POINT IS IN 4TH COORDINATE. $' 
+MSG5 DB 'ENTER THE TEST CASE : $'  
+MSG6 DB 'PRESS ANY KEY TO EXIT.... $'
+NUM DB ?
+.CODE
+
+MAIN PROC
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    LEA DX,MSG5
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    MOV NUM,AL
+    SUB NUM,48  
+    
+    MOV AH,2
+    MOV DL,0AH
+    INT 21H
+    MOV DL,0DH
+    INT 21H
+    
+START:    
+    LEA DX,VAR1
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    MOV CL,AL 
+    
+    MOV AH,2
+    MOV DL,0AH
+    INT 21H
+    MOV DL,0DH
+    INT 21H
+    
+    LEA DX,VAR2
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    MOV BL,AL 
+    
+    MOV AH,2
+    MOV DL,0AH
+    INT 21H
+    MOV DL,0DH
+    INT 21H  
+    
+CHECK_1:
+    CMP CL,43
+    JE FIRST
+    JMP SECOND  
+
+    
+FIRST: 
+   CMP BL,43
+   JNE FOURTH
+   LEA DX, MSG1
+   MOV AH,9
+   INT 21H
+   JMP EXIT  
+   
+SECOND:
+   CMP BL,43
+   JNE THIRD
+   LEA DX,MSG2
+   MOV AH,9
+   INT 21H
+   JMP EXIT
+   
+THIRD:
+   LEA DX,MSG3
+   MOV AH,9
+   INT 21H
+   JMP EXIT
+   
+FOURTH:
+   LEA DX,MSG4
+   MOV AH,9
+   INT 21H
+   JMP EXIT    
+     
+EXIT:
+        MOV AH,2
+        MOV DL,0AH
+        INT 21H
+        MOV DL,0DH
+        INT 21H 
+        
+        DEC NUM
+        CMP NUM,0
+        JE STOP
+        JMP START
+     
+     
+STOP:     
+     LEA DX,MSG6
+     MOV AH,9
+     INT 21H 
+     
+     MOV AH,1
+     INT 21H
+     
+     MOV AH,4CH
+     INT 21H
+     MAIN ENDP
+END MAIN

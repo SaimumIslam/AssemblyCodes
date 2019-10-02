@@ -1,0 +1,55 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+  LOVE DW 1000D,200D,300D,100D,10D   
+  SUM DW 0
+.CODE
+
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    AND AX,0
+    MOV CX,5
+    
+    MOV BX,OFFSET LOVE
+    
+ITERATE:
+    ADD AX,[BX]
+    ADD BX,2
+ LOOP ITERATE
+    MOV SUM,AX
+ 
+    AND AX,0  
+    AND BX,0
+    MOV AX,SUM
+    MOV CL,10
+    MOV BX,0000H
+
+STORE:
+    DIV CL
+    MOV [0000H+BX],AH
+    ADD BX,2
+    AND AH,0
+    CMP AL,0
+    JNE STORE
+    
+PRINT:
+    SUB BX,2
+    AND DX,0
+    MOV AH,2
+    MOV DL,[0000H+BX] 
+    ADD DL,30H  
+    INT 21H
+    CMP BX,0
+    JNE PRINT
+    
+       
+EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+    
+    
+    

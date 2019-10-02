@@ -1,0 +1,56 @@
+.MODEL
+.STACK 100H
+.DATA
+     ;THE VARIABLE
+     
+     NUM DB 49
+     CHAR DB 'A'
+     MSG DB "MY NAME IS FOYSAL $" ;DOLLER SIGN NEEDED
+
+
+.CODE
+;ALL CODE
+
+MAIN PROC;MAIN FUNCTION
+    
+    ;FOR IMPORT DATA 
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    ;DISPLAY NUM VARIABLE
+    
+    MOV AH,2
+    MOV DL,NUM
+    INT 21H
+    
+    ;FOR NEW LINE
+    
+    MOV DL,0AH
+    INT 21H
+    MOV DL ,0DH
+    INT 21H
+    
+    ;FOR DISPLAY CHAR
+    
+    MOV AH,2
+    MOV DL,CHAR
+    INT 21H
+    
+    ;FOR NEW LINE
+    MOV DL,0AH
+    INT 21H
+    MOV DL,0DH
+    INT 21H
+    
+    ;FOR DISPLAY STRING
+    
+    MOV AH,9
+    LEA DX,MSG
+    INT 21H
+    
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+
+END MAIN
